@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 # <HINT> Import any new Models here
-from .models import Course, Enrollment
+from .models import Course, Enrollment,Question,Choice,Submission
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -11,7 +11,33 @@ import logging
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 # Create your views here.
+def submit(request,course_id):
+    course = Enrollment.objects.get(user=nihelbenamor, course=python)
+    Submission = Submission.objects.create(enrollment=3)
+def extract_answers(request):
+   submitted_anwsers = []
+    for key in request.POST:
+        if key.startswith('choice'):
+            value = request.POST[key]
+            choice_id = int(value)
+            submitted_anwsers.append(choice_id)
+    return submitted_anwsers
 
+def show_exam_result(request, course_id, submission_id):
+   context ={}
+   total = 0
+   course = course_id
+   submission = Submission.objects.get(id=submission_id)
+   choice_ids = submission.choice_set.all()
+   for choice in choice_ids:
+       if choice.is_correct == True:
+           total = total + choice.question.grade
+   context['course'] = course
+   context['selected_ids'] = choice_ids
+   context['grade'] = total
+   return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
+# error message
+'Submission' object has no attribute 'choice_set'
 
 def registration_request(request):
     context = {}
