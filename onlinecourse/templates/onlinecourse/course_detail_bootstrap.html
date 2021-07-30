@@ -60,6 +60,114 @@
             <div id="exam" class="collapse">
                 Click to expand elements within the collapse div
                 </div>
+  <br>
+
+         {% if user.is_authenticated %}
+                <div id="exam" class="collapse">
+                    <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
+                                {% for lesson in course.lesson_set.all %}
+                                    {% for question in lesson.question_set.all %}
+                                    <div class="card mt-1">
+                                        <div class="card-header"><h5>{{ question.quesion}}</h5></div>
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            
+                                            {% for choice in question.choice_set.all %}
+                                            
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="choice_{{choice.id}}"
+                                                           class="form-check-input" id="{{choice.id}}"
+                                                           value="{{choice.id}}">{{ choice.text }}
+                                                </label>
+                                            </div>
+
+
+
+                                                {% endfor %}
+
+                                        </div>
+                                    </div>
+
+
+                                    {% endfor %}
+
+                                {% endfor %}
+
+                    <input class="btn btn-success btn-block" type="submit" value="Submit">
+            </form>
+
+
+
+                </div>
+
+         {% endif %}
+
+
+
+
+
+
+
+
+
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Display exam
+  </a>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
+                                {% for lesson in course.lesson_set.all %}
+                                    {% for question in lesson.question_set.all %}
+                                    <div class="card mt-1">
+                                        <div class="card-header"><h5>{{ question.quesion}}</h5></div>
+                                        {% csrf_token %}
+                                        <div class="form-group">
+
+                                            <input type="hidden" id="q_id" name="q_id" value="{{question.id}}">
+                                            
+                                            {% for choice in question.choice_set.all %}
+                                            
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="choice_{{choice.id}}"
+                                                           class="form-check-input" id="{{choice.id}}"
+                                                           value="{{choice.id}}">{{ choice.text }}
+                                                </label>
+                                            </div>
+
+
+
+                                                {% endfor %}
+
+                                        </div>
+                                    </div>
+
+
+                                    {% endfor %}
+
+                                {% endfor %}
+
+                    <input class="btn btn-success btn-block" type="submit" value="Submit">
+            </form>
+  </div>
+</div>
+
+
+
+
+
+          </div>
+    </div>
+
+
+
+    
+
+
+
 
             -->
 
